@@ -5,7 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.neoa.integration.movie.model.Movie;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +45,16 @@ public class MovieService {
             movies.add(new Movie(record[0], record[1], Integer.parseInt(record[2])));
         }
         return movies;
+    }
+
+    public void locateParsedMoviesOutputFile(String fileName, String content) {
+        try(FileOutputStream outputStream = new FileOutputStream("src/main/resources/output/" + fileName + ".processed");){
+            byte [] contentInBytes = content.getBytes(StandardCharsets.UTF_8);
+            outputStream.write(contentInBytes);
+        } catch (IOException e) {
+            log.info("Error when location Parsed Movies in output directory. File name: "+  fileName);
+            e.printStackTrace();
+        } 
     }
 
 }

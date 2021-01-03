@@ -16,17 +16,18 @@ import java.util.Map;
 @Slf4j
 @MessageEndpoint
 public class MovieEndpoint {
-    private MovieService service;
+    private MovieService movieService;
 
     @Autowired
-    public MovieEndpoint(MovieService service) {
-        this.service = service;
+    public MovieEndpoint(MovieService movieService) {
+        this.movieService = movieService;
     }
 
     @ServiceActivator
     public void process(File input, @Headers Map<String, Object> headers) throws IOException {
         FileInputStream in = new FileInputStream(input);
-        String movies = service.format(new String(StreamUtils.copyToByteArray(in)));
+        String movies = movieService.format(new String(StreamUtils.copyToByteArray(in)));
+        movieService.locateParsedMoviesOutputFile(input.getName(), movies);
         in.close();
         log.info("Received: \n" + movies);
     }
