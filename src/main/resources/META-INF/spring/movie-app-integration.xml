@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <!-- Spring Integration -->
-    <int-file:inbound-channel-adapter channel="input" directory="target/input" filename-pattern="*.txt">
+    <int-file:inbound-channel-adapter channel="input" directory="input" filename-pattern="*.txt">
         <int:poller fixed-rate="500"/>
     </int-file:inbound-channel-adapter>
 
